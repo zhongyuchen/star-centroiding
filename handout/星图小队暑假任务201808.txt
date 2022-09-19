@@ -1,0 +1,119 @@
+# 星图小队暑假任务1
+
+### 任务内容
+
+- 7个星图匹配算法的实现
+
+- 图像初步处理
+
+### 分工计划
+
+##### 常朝坤
+
+- [ ] 采用角距的星图识别
+- [ ] 采用P向量的星图识别
+- [ ] 无标定参数的星图识别
+
+##### 陈中钰
+
+- [ ] 栅格算法
+- [ ] 图像质心提取
+
+##### 赵伟丞
+
+- [ ] 采用径向和环向特征的星图识别
+- [ ] 采用Log-Polar变换的星图识别
+
+##### 谢炳辉
+
+- [ ] 采用星向量矩阵特征的神经网络星图识别
+- [ ] 采用混合特征的神经网络星图识别
+
+### 注意事项
+
+- 语言使用C++.
+
+- DDL: 8.15
+
+- 每一个算法写成一个类，注意为类和方法写中/英说明.
+
+- 类的方法名、变量名尽量友好.
+
+- 每一个算法可以获得的外部输入是导航星表的数据（skymaps.csv文件）.
+
+  以及观测星在观测照片中的位置和亮度（暂时可能需要自己造一下）.
+
+  算法的输出识别的星的编号
+
+- 如果算法中需要获取观测星的天球坐标，调用函数get_celestial_coordinate(x,y).
+
+
+
+### skymaps.csv文件说明
+
+| ID   | Galactic longitude | Galactic latitude | Observed V magnitude |
+| ---- | ------------------ | ----------------- | -------------------- |
+| 1    | xxx(0,360)         | xxx(-90,90)       | xxx[-1.44,6]         |
+| 2    | xxx                | xxx               | xxx                  |
+| 3    | xxx                | xxx               | xxx                  |
+
+### C++读取.csv文件参考
+
+```cpp
+#include<iostream>
+#include<fstream>
+#include<sstream>
+#include<string>
+#include<vector>
+
+using namespace std;
+
+string Trim(string &str){
+    /*去除无效字符，可以不使用*/
+    str.erase(0,str.find_first_not_of(" \t\r\n"));
+	str.erase(str.find_last_not_of(" \t\r\n") + 1);
+	return str;
+}
+
+int main(){
+    ifstream fin("C:\\Users\\70700\\Desktop\\stars_location\\sky.csv");
+    string line;
+    float x=0,y=0,m=0,id=0;
+    int count = 0;
+    while(getline(fin,line)){
+        
+        if(count>10) break;
+        cout<<"原始字符串：\n "<< line << endl;
+
+        istringstream sin(line);
+        vector<string> fields;
+        string field;
+        while(getline(sin,field,',')){
+            fields.push_back(field);
+        } 
+        
+        string GalacticLongitude,GalacticLatitude,Magnitude,ID;
+        ID = fields[0];
+        GalacticLongitude = fields[1];
+        GalacticLatitude = fields[2];
+        Magnitude = fields[3];
+        
+        id = atof(ID.c_str());
+        x = atof(GalacticLongitude.c_str());
+        y = atof(GalacticLatitude.c_str());
+        m = atof(Magnitude.c_str());
+        
+        cout << "处理后的字符串：\n" << "ID" << id << "  GalacticLongitude:" << x << "   GalacticLatitude:" << y << "  Magnitude:" << m << endl;
+        count++;
+    }
+    system("pause");
+}
+```
+
+------
+
+
+
+### 其他任务（last but not least)
+
+#### 收！集！发！票！（交通、图书）
